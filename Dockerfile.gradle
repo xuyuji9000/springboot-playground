@@ -1,0 +1,17 @@
+FROM gradle:4.10-jdk8-alpine as build-dep
+ENV BUILD_APP_HOME=/home/gradle/src
+COPY --chown=gradle:gradle . $BUILD_APP_HOME
+WORKDIR $BUILD_APP_HOME
+RUN gradle build
+
+FROM openjdk:8-jre-alpine
+
+ENV BASE_NAME="gs-spring-boot"
+ENV VERSION="0.1.0"
+ENV BUILD_APP_HOME=/home/gradle/src
+ENV ARTIFACT_NAME=$BASE_NAME-$VERSION.jar
+
+COPY --from=build-dep $BUILD_APP_HOME/build/libs/$ARTIFACT_NAME .
+
+EXPOSE 8080
+CMD ["sh", "-c","java -jar $ARTIFACT_NAME"]

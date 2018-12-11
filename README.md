@@ -1,5 +1,11 @@
 # Commands
 
+## Gradle
+
+- Build image: `docker build -t docker build -t springboot-playground:gradle -f ./Dockerfile.gradle .`
+
+- Run container: `docker run -p 8080:8080 springboot-playground:gradle`
+
 
 
 # Reference
